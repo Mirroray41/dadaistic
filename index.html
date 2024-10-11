@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dadaistic Poem Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<style>
+    #text {
+        display: inline-block;
+        min-height: 25px;
+        min-width: 5rem;
+        max-width: 60vw;
+        border: none;
+    }
+    #text:focus {
+        outline: none;
+    }
+    html {
+       height: 100vh; 
+    }
+    body {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 1rem;
+        font-family: "Edu AU VIC WA NT Guides", cursive;
+        font-optical-sizing: auto;
+        font-style: normal;
+        overflow-y: auto;
+    }
+
+    .torn {
+        position: relative;
+        font-size: 1.2em;
+        padding: 0.5rem;
+    }
+
+    .torn::before {
+        position: absolute;
+        content: '';
+        inset: 0;
+        background: #fed;
+        border-radius: 20px 4px 30px 8px;
+        filter: url(#wobble);
+        z-index: -1;
+        box-shadow: 5px 5px 5px #0009;
+        background-color: rgb(243, 231, 205);
+        background-size: 100px;
+    }
+    .wobble {
+        filter: url(#wobble);
+    }
+    #output {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.2rem;
+        max-width: 30vw;
+    }
+    .button {
+        background-color: #04AA6D; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+    .button1 {
+        background-color: white; 
+        color: black; 
+        border: 2px solid #04AA6D;
+    }
+
+    .button1:hover {
+        background-color: #04AA6D;
+        color: white;
+    }
+    </style>
+<body>
+    <div class="torn">
+        <span id="text" contenteditable="true" spellcheck="false"></span>
+    </div>
+    <button class="button button1" onclick="processButton()">Zpracovat</button>
+    <div id="output"></div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0" width="0">
+        <defs>
+            <filter id="wobble">
+                <feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="4" />
+                <feDisplacementMap in="SourceGraphic" scale="6" />
+            </filter>
+        </defs>
+    </svg>
+    <script>
+        let text_input = document.getElementById("text")
+        let output = document.getElementById("output")
+
+        function processButton() {
+            output.innerHTML = ""
+            let shufed = shuffleArray((text_input.innerText).replace(/\r?\n/g, " ").replace("  ", " ").split(" "));
+            console.log(shufed);
+            shufed.forEach(element => {
+                let word = document.createElement("div");
+                word.classList = "torn";
+                word.innerText = element;
+                output.appendChild(word);
+            });
+        }
+
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i >= 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array
+        }
+        
+    </script>
+</body>
+</html>
